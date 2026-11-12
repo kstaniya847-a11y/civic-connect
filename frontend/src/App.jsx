@@ -40,7 +40,10 @@ import L from 'leaflet'
 
 import 'leaflet/dist/leaflet.css'
 
-const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+const configuredApiBase = import.meta.env.VITE_API_BASE_URL
+const apiBase = configuredApiBase
+  ? (/^https?:\/\//i.test(configuredApiBase) ? configuredApiBase : `https://${configuredApiBase}`)
+  : 'http://localhost:8000'
 
 const demoIssues = [
   {
