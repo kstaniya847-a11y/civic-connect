@@ -1,0 +1,1 @@
+"""CivicConnect backend package."""
