@@ -43,7 +43,7 @@ import 'leaflet/dist/leaflet.css'
 const configuredApiBase = import.meta.env.VITE_API_BASE_URL
 const apiBase = configuredApiBase
   ? (/^https?:\/\//i.test(configuredApiBase) ? configuredApiBase : `https://${configuredApiBase}`)
-  : 'http://localhost:8000'
+  : import.meta.env.PROD ? '' : 'http://localhost:8000'
 
 const demoIssues = [
   {
@@ -295,7 +295,7 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-slate-100 text-slate-800">
         <AppShell issues={issues} stats={stats} loading={loading} user={user} onLogin={handleLogin} onLogout={handleLogout} onIssueCreated={handleIssueCreated} onIssueUpdated={handleIssueUpdated} />
       </div>
