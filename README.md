@@ -18,16 +18,15 @@ CivicConnect is a modern AI-powered community problem-solving platform for repor
 - `backend/` — FastAPI API server
 - `.env.example` — environment configuration template
 - `render.yaml` — Render API deployment blueprint
-- `frontend/vercel.json` — Vercel SPA routing configuration
+- `.github/workflows/deploy-pages.yml` — automated GitHub Pages build and deployment
 
-## Public deployment (Vercel + Render)
+## Public deployment (GitHub Pages + Render)
 
-1. Import this repository into [Render](https://dashboard.render.com/) as a Blueprint. Render uses `render.yaml` to deploy the FastAPI service. Copy the deployed API service's public URL.
-2. Import the same repository into [Vercel](https://vercel.com/new) and set the project Root Directory to `frontend`.
-3. In the Vercel project settings, add the environment variable `VITE_API_BASE_URL` with the full Render API URL, including `https://` (for example, `https://civicconnect-api.onrender.com`). Redeploy after setting it.
-4. Share the Vercel production URL. The frontend is public; issue APIs work when the Render service is available.
+1. In GitHub repository **Settings → Pages**, choose **GitHub Actions** as the source.
+2. Push to `main` or run **Deploy CivicConnect to GitHub Pages** from the Actions tab. The public website URL is `https://kstaniya847-a11y.github.io/civic-connect/` after a successful deployment.
+3. Optionally deploy the FastAPI API from `render.yaml` using Render Blueprint. Set the repository Actions variable `VITE_API_BASE_URL` to the full Render API URL and rerun the Pages deployment to enable API-backed features.
 
-The free Render API may sleep when idle and uses in-memory demo data, so it is not suitable for persistent production records.
+GitHub Pages serves the frontend only. Without a deployed API, the website can be viewed but login/reporting will not persist. The free Render API may sleep when idle and currently uses in-memory demo data.
 
 ## Quick start
 
