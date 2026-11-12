@@ -589,7 +589,7 @@ function AuthPage({ onLogin, user }) {
       onLogin(authUser, response.data.token)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed. Please try again.')
+      setError(err.response?.data?.detail || (mode === 'register' ? 'Registration is unavailable. Please try again later.' : 'Login failed. Please try again.'))
     } finally {
       setLoading(false)
     }
@@ -1078,6 +1078,8 @@ function IssueDetailsPage({ issues, onIssueUpdated }) {
     }
   }
 
+  const timeline = issue.timeline || statusOrder.map((status) => ({ status, timestamp: issue.created_at, note: status === issue.status ? 'Current state' : 'Related update' }))
+
   return (
     <div className="space-y-8">
       <div className="rounded-[30px] border border-slate-200 bg-white p-6 shadow-sm">
@@ -1132,11 +1134,11 @@ function IssueDetailsPage({ issues, onIssueUpdated }) {
       <div className="rounded-[30px] border border-slate-200 bg-white p-6 shadow-sm">
         <h3 className="text-xl font-semibold text-slate-900">Resolution timeline</h3>
         <div className="mt-6 space-y-4">
-          {(issue.timeline || statusOrder.map((status) => ({ status, timestamp: new Date().toISOString(), note: status === issue.status ? 'Current state' : 'Related update' }))).map((step, index) => (
+          {(issue.timeline || statusOrder.map((status) => ({ status, timestamp: issue.created_at, note: status === issue.status ? 'Current state' : 'Related update' }))).map((step, index) => (
             <div key={`${step.status}-${index}`} className="flex gap-4">
               <div className="flex flex-col items-center">
                 <div className={`h-4 w-4 rounded-full ${step.status === issue.status ? 'bg-sky-700' : 'bg-slate-300'}`} />
-                {index < (issue.timeline || []).length - 1 && <div className="mt-2 h-12 w-px bg-slate-200" />}
+                {index < timeline.length - 1 && <div className="mt-2 h-12 w-px bg-slate-200" />}
               </div>
               <div className="flex-1 rounded-2xl bg-slate-50 p-4">
                 <div className="flex items-center justify-between gap-4">
